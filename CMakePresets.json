@@ -1,0 +1,90 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 19,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "default-base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/cmake-build/${presetName}",
+      "cacheVariables": {
+        "UTF_STRING_BUILD_SAMPLES": "ON",
+        "UTF_STRING_BUILD_TESTS": "ON"
+      }
+    },
+    {
+      "name": "windows-base",
+      "inherits": "default-base",
+      "hidden": true,
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [
+            "Windows"
+          ]
+        }
+      }
+    },
+    {
+      "name": "linux-base",
+      "inherits": "default-base",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_MAKE_PROGRAM": "ninja"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioSettings/CMake/1.0": {
+          "hostOS": [ "Linux" ]
+        },
+        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+          "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
+        }
+      }
+    },
+    {
+      "name": "windows-debug-msvc",
+      "inherits": "windows-base",
+      "displayName": "Windows x64 Debug with MSVC",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "cl.exe"
+      }
+    },
+    {
+      "name": "windows-release-msvc",
+      "inherits": "windows-base",
+      "displayName": "Windows x64 Release with MSVC",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_COMPILER": "cl.exe"
+      }
+    },
+    {
+      "name": "linux-debug-clang",
+      "inherits": "linux-base",
+      "displayName": "Linux x64 Debug with Clang",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_C_COMPILER": "clang"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-debug-msvc",
+      "configurePreset": "windows-debug-msvc"
+    },
+    {
+      "name": "linux-debug-clang",
+      "configurePreset": "linux-debug-clang"
+    }
+  ]
+}
